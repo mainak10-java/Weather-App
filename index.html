@@ -4,8 +4,77 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Weather App</title>
+    <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
     
+    <div class="wrapper">
+        
+        <h1>Weather App</h1>
+        
+        <div class="tab-container">
+            <p class="tab" id="curr-city-weather">Your Weather</p>
+            <p class="tab" id="search-city-weather">Current Weather</p>
+        </div>
+
+        <div class="weather-container">
+            
+            <div class="grant-access-container" data-grant>
+                <img src="./assets/location.png" width="80" height="80" loading="lazy">
+                <p>Grant Location Access</p>
+                <p>Allow Access to get Weather Information</p>
+                <button class="btn"  id="grant-access-btn">
+                    Allow Access
+                </button>
+            </div>
+
+            <div class="loading-container" data-loading>
+                <img src="./assets/loading.gif" width="150" height="150">
+                <p>Loading</p>
+            </div>
+
+            <form class="form-container" data-searchForm>
+                <input placeholder="Enter the City Name" id="search-bar" data-searchInput>
+                <button class="btn" type="submit">
+                    <img src="./assets/search.png" width="20" height="20" loading="lazy">
+                </button>
+            </form>
+
+            <div class="user-info-container">
+
+                <div class="name">
+                    <p data-cityName></p>
+                    <img data-countryIcon>
+                </div>
+
+                <p data-weatherDesc></p>
+
+                <img data-weatherIcon>
+
+                <p data-weatherTemp></p>
+
+                <div class="paramter-container">
+
+                    <div class="paramter">
+                        <img src="./assets/wind.png">
+                        <p>Wind Speed</p>
+                        <p data-windSpeed></p>
+                    </div>
+
+                    <div class="paramter">
+                        <img src="./assets/cloud.png">
+                        <p>Cloudiness</p>
+                        <p data-cloudiness></p>
+                    </div>
+                    <div class="paramter">
+                        <img src="./assets/humidity.png" alt="">
+                        <p>Humidity</p>
+                        <p data-humidity></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="./script.js"></script>
 </body>
 </html>
