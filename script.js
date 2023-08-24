@@ -6,12 +6,15 @@ const grantAccessContainer= document.querySelector('.grant-access-container');
 const searchForm= document.querySelector('.form-container');
 const loadingScreen= document.querySelector('.loading-container');
 const userInfoContainer = document.querySelector(".user-info-container");
+const errorContainer= document.querySelector('.error-container');
 
 let currentTab=userTab;
 currentTab.classList.add("current-tab");
 getFromSessionStorage();
 
 function switchTab(clickedTab){
+    errorContainer.classList.remove('active');
+    
     if(currentTab!=clickedTab){
         currentTab.classList.remove("current-tab");
         currentTab=clickedTab;
@@ -53,6 +56,10 @@ function getFromSessionStorage(){
     }
 }
 
+const apiErrorText= document.querySelector("[data-apiErrorText]");
+const apiErrorImg = document.querySelector("[data-notFoundImg]");
+
+
 async function fetchYourWeatherInfo(coordinates){
     const {lat, lon}= coordinates;
     grantAccessContainer.classList.remove("active");
@@ -61,13 +68,18 @@ async function fetchYourWeatherInfo(coordinates){
     try{
         const response= await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`);
         const data= await response.json();
-        
+        if(!data.sys)
+         throw data;
+
         loadingScreen.classList.remove("active");
         userInfoContainer.classList.add("active");
         renderWeatherInfo(data);
     }
-    catch(e){
+    catch(error){
         loadingScreen.classList.remove("active");
+        errorContainer.classList.add("active");
+        apiErrorImg.style.display = "none";
+        apiErrorText.innerText = `Error: ${error?.message}`;
     }
 }
 
@@ -85,10 +97,10 @@ function renderWeatherInfo(weatherInfo){
     countryIcon.src= `https://flagcdn.com/144x108/${weatherInfo?.sys?.country.toLowerCase()}.png`;
     desc.innerText=weatherInfo?.weather?.[0]?.description;
     weatherIcon.src=`http://openweathermap.org/img/w/${weatherInfo?.weather?.[0]?.icon}.png`;
-    temp.innerText=weatherInfo?.main?.temp;
-    windspeed.innerText=weatherInfo?.wind?.speed;
-    humidity.innerText=weatherInfo?.main?.humidity;
-    cloudiness.innerText = weatherInfo?.clouds?.all;
+    temp.innerText=`${weatherInfo?.main?.temp} °C`;
+    windspeed.innerText=`${weatherInfo?.wind?.speed} m/s`;
+    humidity.innerText=`${weatherInfo?.main?.humidity}%`;
+    cloudiness.innerText = `${weatherInfo?.clouds?.all}%`;
 }
 
 function getLocation(){
@@ -123,23 +135,31 @@ searchForm.addEventListener("submit", (e) => {
         return;
     else
         fetchCityWeatherInfo(cityName);
+    cityName="";
 });
+
+
 
 async function fetchCityWeatherInfo(city){
     loadingScreen.classList.add("active");
     userInfoContainer.classList.remove("active");
     grantAccessContainer.classList.remove("active");
+    errorContainer.classList.remove("active");
 
     try{
         const response=await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric`);
         const data=await response.json();
-
+        if (!data.sys) {
+            throw data;
+        }
         loadingScreen.classList.remove("active");
         userInfoContainer.classList.add("active");
         renderWeatherInfo(data);
-        console.log("Data Rendered");
+    //  console.log("Data Rendered");
     }
-    catch(e){
-
+    catch(error){
+        loadingScreen.classList.remove('active');
+        errorContainer.classList.add('active');
+        apiErrorText.innerText = `${error?.message}`;
     }
 }

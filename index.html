@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Weather App</title>
     <link rel="stylesheet" href="./styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather+Sans:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet" />
 </head>
 <body>
     
@@ -19,7 +23,7 @@
 
         <div class="weather-container">
             
-            <div class="grant-access-container" data-grant>
+            <div class="sub-container grant-access-container" data-grant>
                 <img src="./assets/location.png" width="80" height="80" loading="lazy">
                 <p>Grant Location Access</p>
                 <p>Allow Access to get Weather Information</p>
@@ -28,7 +32,7 @@
                 </button>
             </div>
 
-            <div class="loading-container" data-loading>
+            <div class="sub-container loading-container" data-loading>
                 <img src="./assets/loading.gif" width="150" height="150">
                 <p>Loading</p>
             </div>
@@ -40,24 +44,24 @@
                 </button>
             </form>
 
-            <div class="user-info-container">
+            <div class="sub-container user-info-container">
 
                 <div class="name">
                     <p data-cityName></p>
                     <img data-countryIcon>
                 </div>
 
-                <p data-weatherDesc></p>
+                <p id="w-desc" data-weatherDesc></p>
 
-                <img data-weatherIcon>
+                <img id="w-icon" data-weatherIcon>
 
-                <p data-weatherTemp></p>
+                <p id="w-temp" data-weatherTemp></p>
 
-                <div class="paramter-container">
+                <div class="parameter-container">
 
                     <div class="paramter">
                         <img src="./assets/wind.png">
-                        <p>Wind Speed</p>
+                        <p>WindSpeed</p>
                         <p data-windSpeed></p>
                     </div>
 
@@ -72,6 +76,12 @@
                         <p data-humidity></p>
                     </div>
                 </div>
+            </div>
+
+            <div class="sub-container error-container">
+                <img src="./assets/not-found.png" data-notFoundImg>
+                <p data-apiErrorText></p>
+                
             </div>
         </div>
     </div>
